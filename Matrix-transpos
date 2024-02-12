@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Calculator</title>
+    <style>
+        .container {
+            background-color: green;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .matrix-ordo {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .matrix-ordo input {
+            width: 40px;
+        }
+        .matrix-container input {
+            text-align: center;
+        }
+        .container h3 {
+            text-align: center;
+            color: white;
+        }
+        .matrix-container {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(2, 50px);
+            gap: 10px;
+        }
+        .ans-container {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(2, 50px);
+            gap: 10px;
+        }
+        #calculate {
+            width: 200px;
+            border: none;
+            background-color: aliceblue;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .ans {
+            color: white;
+            background-color: #545454;
+            padding: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3 id="title">Matrix 3 kali 2</h3>
+        <div class="matrix-ordo">
+            <input type="number" placeholder="row" id="row">
+            <input type="number" placeholder="col" id="col">
+        </div>
+        <div class="matrix-container">
+            <input type="number" name="" id="mat">
+            <input type="number" name="" id="mat">
+            <input type="number" name="" id="mat">
+            <input type="number" name="" id="mat">
+            <input type="number" name="" id="mat">
+            <input type="number" name="" id="mat">
+        </div>
+        <button id="calculate">Calculate</button>
+        <div id="ans" class="ans-container"></div>
+    </div>
+</body>
+<script>
+    // Data Station
+    const title = document.querySelector("#title");
+    const rowInput = document.querySelector("#row");
+    const colInput = document.querySelector("#col");
+    const calculateButton = document.querySelector("#calculate");
+    const matrixContainer = document.querySelector(".matrix-container");
+    const ansCon = document.querySelector("#ans")
+
+    // Initial values
+    let rowNum = 2;
+    let colNum = 3;
+
+    // Function to create input elements
+    function createInputs() {
+        matrixContainer.innerHTML = ''; // Clear existing inputs
+
+        for (let i = 0; i < rowNum; i++) {
+            for (let j = 0; j < colNum; j++) {
+                const input = document.createElement("input");
+                input.type = "number";
+                input.id = "mat";
+                matrixContainer.appendChild(input);
+            }
+        }
+        title.textContent = 'Matrix ' + rowNum + ' kali ' + colNum;
+        matrixContainer.style.gridTemplateColumns = `repeat(${colNum}, 50px)`;
+        matrixContainer.style.gridTemplateRows = `repeat(${rowNum}, 50px)`;
+    }
+
+    // Event listeners for row and column input
+    rowInput.addEventListener("input", function () {
+        rowNum = Math.min(parseInt(rowInput.value), 5); // Limit to a maximum of 5 rows
+        createInputs();
+    });
+
+    colInput.addEventListener("input", function () {
+        colNum = Math.min(parseInt(colInput.value), 5); // Limit to a maximum of 5 columns
+        createInputs();
+    });
+
+    function createAns(arr) {
+        ansCon.innerHTML = '';
+        console.log(arr)
+        for (let i = 0; i < colNum; i++) {
+            for (let j = 0; j < rowNum; j++) {
+                const input = document.createElement("div");
+                input.classList.add("ans")
+                input.textContent = arr[j][i];
+                console.log(arr[j][i])
+                ansCon.appendChild(input);
+            }
+        }
+        ansCon.style.gridTemplateColumns = `repeat(${rowNum}, 50px)`;
+        ansCon.style.gridTemplateRows = `repeat(${colNum}, 50px)`;
+    }
+
+    calculateButton.addEventListener("click", function() {
+        const matrix = document.querySelectorAll("#mat")
+        let arr = new Array(rowNum)
+        for (i = 0; i < rowNum; i++) {
+            arr[i] = new Array(colNum)
+        }
+
+        
+        let index = 0;
+        for (i = 0; i < rowNum; i++) {
+            for (j = 0; j < colNum; j++) {
+                arr[i][j] = parseInt(matrix[index].value)
+                index++
+            }
+        }
+        createAns(arr);
+    })
+
+</script>
+</html>
